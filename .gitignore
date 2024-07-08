@@ -1,3 +1,6 @@
+# Customs
+.sandbox
+
 # Compiled Lua sources
 luac.out
 
