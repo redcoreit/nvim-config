@@ -63,5 +63,9 @@ return {
         'ThePrimeagen/harpoon',
         branch = "harpoon2",
         config = cfg,
+        dependencies = 
+        { 
+            "plenary", 
+        }, 
     },
 }
