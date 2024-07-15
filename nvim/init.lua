@@ -1,3 +1,5 @@
+require("generic.set")
+
 if os.getenv("NVIM_PROFILE") == "bare" then
     require("bare.init")
 elseif os.getenv("NVIM_PROFILE") == "sandbox" then
@@ -18,7 +20,7 @@ elseif os.getenv("NVIM_PROFILE") == "sandbox" then
     end
 
     table.insert(filtered_rtp, vim.env.XDG_CONFIG_HOME)
-    table.insert(filtered_rtp, vim.env.XDG_CONFIG_HOME .. "\\lua")
+    table.insert(filtered_rtp, vim.env.XDG_CONFIG_HOME .. "\\nvim\\lua")
 
     -- Rebuild the runtime path
     vim.o.runtimepath = table.concat(filtered_rtp, ",")
@@ -27,18 +29,16 @@ elseif os.getenv("NVIM_PROFILE") == "sandbox" then
     vim.env.XDG_STATE_HOME = vim.env.XDG_CONFIG_HOME .. "/.sandbox/.local/state"
     vim.env.XDG_CACHE_HOME = vim.env.XDG_CONFIG_HOME .. "/.sandbox/.cache"
 
-    local package_path = os.getenv("XDG_CONFIG_HOME") .. "\\"
+    local package_path = os.getenv("XDG_CONFIG_HOME") .. "\\nvim\\"
     package.path = package.path .. ';'
     package.path = package.path .. package_path .. '?.lua;'
     package.path = package.path .. package_path .. '?\\init.lua'
 
-    require("generic.set")
     require("generic.bootstrap_lazy")
 else
-    require("generic.set")
     require("generic.bootstrap_lazy")
 end
 
-require("lua.generic.remap")
-require("lua.generic.cmds")
-require("lua.system.hiyank")
+require("generic.remap")
+require("generic.cmds")
+require("system.hiyank")

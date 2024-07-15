@@ -41,7 +41,7 @@ $CfgDir = "$PSScriptRoot" #.Replace('\','\\')
 $Cmd = "& {
         cd '$Cwd'
         `$Env:NVIM_PROFILE='$Profile'
-        `$Env:XDG_CONFIG_HOME=`"$CfgDir\nvim`"
+        `$Env:XDG_CONFIG_HOME=`"$CfgDir`"
         nvim -i NONE -u '$CfgDir\nvim\init.lua'
 }"
 
