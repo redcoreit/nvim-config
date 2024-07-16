@@ -4,7 +4,9 @@ local cfg = function()
             window = {
                 winblend = 0
             },
+            override_vim_notify = true, 
         },
+
     }
 
     require("fidget").setup(opts)
