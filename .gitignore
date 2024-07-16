@@ -3,6 +3,7 @@ nvim/.sandbox
 .sandbox
 github-copilot
 nvim/lazy-lock.json
+nvim/.luarc.json                                                                                                                                                                                         
 
 # Compiled Lua sources
 luac.out
