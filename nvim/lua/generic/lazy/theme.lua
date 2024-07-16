@@ -7,10 +7,16 @@ local cfg = function()
 
     vim.cmd("colorscheme rose-pine")
 
-    -- Set the transparency of floating windows
-	vim.cmd([[
-        set winblend=20
-    ]])	
+    vim.api.nvim_create_autocmd("User", {
+        pattern = "LazyDone",
+        once = true,
+        callback = function()
+            -- Set the transparency of floating windows
+            vim.cmd[[
+                set winblend=20
+            ]]	
+        end,
+    })
 end
 
 return {
