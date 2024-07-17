@@ -79,87 +79,67 @@ local opts_evil = function()
         table.insert(config.sections.lualine_x, component)
     end
 
+    local get_mode_color = function()
+        -- auto change color according to neovims mode
+        local mode_color = {
+            n = colors.red,
+            i = colors.green,
+            v = colors.blue,
+            [''] = colors.blue,
+            V = colors.blue,
+            c = colors.magenta,
+            no = colors.red,
+            s = colors.orange,
+            S = colors.orange,
+            [''] = colors.orange,
+            ic = colors.yellow,
+            R = colors.violet,
+            Rv = colors.violet,
+            cv = colors.red,
+            ce = colors.red,
+            r = colors.cyan,
+            rm = colors.cyan,
+            ['r?'] = colors.cyan,
+            ['!'] = colors.red,
+            t = colors.red,
+        }
+        return { fg = mode_color[vim.fn.mode()] }
+    end
+
+    local get_buffstate_color = function()
+        if vim.bo.readonly then
+            return { fg = colors.darkblue, gui = 'bold' }
+        end
+
+        if vim.bo.modified then
+            return { fg = colors.green, gui = 'bold' }
+        else
+            return { fg = colors.magenta, gui = 'bold' }
+        end
+    end
+
+
     ins_left {
         function()
             return '▊'
         end,
-        color = { fg = colors.blue }, -- Sets highlighting of component
+        color = get_mode_color,
         padding = { left = 0, right = 1 }, -- We don't need space before this
     }
 
     ins_left {
         -- mode component
         function()
-            return ''
-        end,
-        color = function()
-            -- auto change color according to neovims mode
-            local mode_color = {
-                n = colors.red,
-                i = colors.green,
-                v = colors.blue,
-                [''] = colors.blue,
-                V = colors.blue,
-                c = colors.magenta,
-                no = colors.red,
-                s = colors.orange,
-                S = colors.orange,
-                [''] = colors.orange,
-                ic = colors.yellow,
-                R = colors.violet,
-                Rv = colors.violet,
-                cv = colors.red,
-                ce = colors.red,
-                r = colors.cyan,
-                rm = colors.cyan,
-                ['r?'] = colors.cyan,
-                ['!'] = colors.red,
-                t = colors.red,
-            }
-            return { fg = mode_color[vim.fn.mode()] }
+            -- return ''
+            return ''
         end,
         padding = { right = 1 },
     }
 
     ins_left {
-        -- filesize component
-        'filesize',
-        cond = conditions.buffer_not_empty,
-    }
-
-    ins_left {
-        'filename',
-        cond = conditions.buffer_not_empty,
-        color = { fg = colors.magenta, gui = 'bold' },
-    }
-
-    ins_left { 'location' }
-
-    ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
-
-    ins_left {
-        'diagnostics',
-        sources = { 'nvim_diagnostic' },
-        symbols = { error = ' ', warn = ' ', info = ' ' },
-        diagnostics_color = {
-            error = { fg = colors.red },
-            warn = { fg = colors.yellow },
-            info = { fg = colors.cyan },
-        },
-    }
-
-    -- Insert mid section. You can make any number of sections in neovim :)
-    -- for lualine it's any number greater then 2
-    ins_left {
-        function()
-            return '%='
-        end,
-    }
-
-    ins_left {
         -- Lsp server name .
         function()
-            local msg = 'No Active Lsp'
+            local msg = '-'
             local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
             local clients = vim.lsp.get_active_clients()
             if next(clients) == nil then
@@ -177,6 +157,35 @@ local opts_evil = function()
         color = { fg = '#ffffff', gui = 'bold' },
     }
 
+
+    -- Insert mid section. You can make any number of sections in neovim :)
+    -- for lualine it's any number greater then 2
+    ins_left {
+        function()
+            return '%='
+        end,
+    }
+
+    ins_left {
+            'filename',
+            file_status = false, -- displays file status (readonly status, modified status)
+            path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
+        cond = conditions.buffer_not_empty,
+        color = get_buffstate_color,
+    }
+
+    ins_right {
+        'diagnostics',
+        sources = { 'nvim_diagnostic' },
+        symbols = { error = ' ', warn = ' ', info = ' ' },
+        diagnostics_color = {
+            error = { fg = colors.red },
+            warn = { fg = colors.yellow },
+            info = { fg = colors.cyan },
+        },
+    }
+
+
     -- Add components to right sections
     ins_right {
         'o:encoding', -- option component same as &encoding in viml
@@ -192,29 +201,13 @@ local opts_evil = function()
         color = { fg = colors.green, gui = 'bold' },
     }
 
-    ins_right {
-        'branch',
-        icon = '',
-        color = { fg = colors.violet, gui = 'bold' },
-    }
-
-    ins_right {
-        'diff',
-        -- Is it me or the symbol for modified us really weird
-        symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
-        diff_color = {
-            added = { fg = colors.green },
-            modified = { fg = colors.orange },
-            removed = { fg = colors.red },
-        },
-        cond = conditions.hide_in_width,
-    }
+    ins_right { 'location' }
 
     ins_right {
         function()
             return '▊'
         end,
-        color = { fg = colors.blue },
+        color = get_mode_color,
         padding = { left = 1 },
     }
 
@@ -223,7 +216,6 @@ end
 
 local cfg = function()
     local opts = opts_evil()
-
     require('lualine').setup(opts)
 end
 
