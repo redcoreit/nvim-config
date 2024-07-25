@@ -45,25 +45,23 @@ end, opts)
 
 -- telescope
 map("n", "gr", ":Telescope lsp_references<CR>", opts)
+map("n", "gt", ":Telescope lsp_implementations<CR>", opts)
 map("n", "<leader>tt", ":Telescope<CR>", opts)
 map("n", "<leader>th", ":Telescope help_tags<CR>", opts)
 map("n", "<Leader>\\", ":lua require('telescope').extensions.recent_files.pick({only_cwd=true})<CR>", opts)
 map("n", "<leader>|", ":Telescope git_files<CR>", opts)
 map("n", "<leader>'", ":Telescope live_grep<CR>", opts)
 map("n", "<leader>;", ":Telescope find_files<CR>", opts)
+map("n", "<leader>/", ":Telescope lsp_document_symbols<CR>", opts)
+map("n", "<leader>?", ":Telescope lsp_workspace_symbols<CR>", opts)
 map("n", "<leader>:",  function() 
     require('telescope.builtin').find_files { 
         search_file = vim.fn.expand("<cword>") 
     }
 end, opts)
-map("n", "<leader>/",  function() 
+map("n", "<leader>\"",  function() 
     require('telescope.builtin').grep_string { 
         search = vim.fn.expand("<cword>") 
-    }
-end, opts)
-map("n", "<leader>?",  function() 
-    require('telescope.builtin').grep_string { 
-        search = vim.fn.expand("<cWORD>") 
     }
 end, opts)
 map("n", "<leader>td", function() 
@@ -101,12 +99,9 @@ local lsp_map = function(map, opts)
     map('n', '<leader>ca', vim.lsp.buf.code_action, opts)
     map('n', '<leader>f', vim.lsp.buf.format, opts)
     map("n", "gd", vim.lsp.buf.definition, opts)
-    map('n', 'gD', vim.lsp.buf.declaration, opts)
-    map('n', 'gt', vim.lsp.buf.type_definition, opts)
+    map('n', 'gD', vim.lsp.buf.type_definition, opts)
     map('n', '[d', vim.diagnostic.goto_prev, opts)
     map('n', ']d', vim.diagnostic.goto_next, opts)
-    map('n', '<leader>i', vim.diagnostic.open_float, opts)
-    map('n', '<leader>q', vim.diagnostic.setqflist, opts)
 
     -- cmp
     --map('i', '<Enter>', "<cmd>lua require('cmp').confirm({ select = true })<CR>", opts)
