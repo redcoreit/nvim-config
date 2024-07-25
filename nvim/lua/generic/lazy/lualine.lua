@@ -18,6 +18,7 @@ local opts_evil = function()
         magenta  = '#c678dd',
         blue     = '#51afef',
         red      = '#ec5f67',
+        gray     = '#908caa',
     }
 
     local conditions = {
@@ -108,13 +109,13 @@ local opts_evil = function()
 
     local get_buffstate_color = function()
         if vim.bo.readonly then
-            return { fg = colors.darkblue, gui = 'bold' }
+            return { fg = colors.magenta, gui = 'bold' }
         end
 
         if vim.bo.modified then
-            return { fg = colors.green, gui = 'bold' }
+            return { fg = colors.red, gui = 'bold' }
         else
-            return { fg = colors.magenta, gui = 'bold' }
+            return { fg = colors.gray, gui = 'bold' }
         end
     end
 
