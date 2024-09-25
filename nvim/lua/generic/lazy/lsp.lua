@@ -37,7 +37,7 @@ local cfg_powershell_es = function()
         },
         filetypes = { "ps1" },
         bundle_path = bundle_path,
-        cmd = {'pwsh', '-NoLogo', '-NoProfile', '-Command', command},
+        cmd = {'pwsh', '-NoLogo', '-NoProfile', '-ExecutionPolicy', 'Unrestricted', '-Command', command},
         root_dir = lspconfig.util.root_pattern("*.ps1"),
     })
 end
