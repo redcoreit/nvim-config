@@ -18,7 +18,7 @@ local cfg_pwsh = function()
 end
 
 local cfg = function()
-    cfg_pwsh()
+    -- cfg_pwsh()
 
     require'nvim-treesitter.configs'.setup {
         -- A list of parser names, or "all"
