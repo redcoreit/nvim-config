@@ -26,6 +26,7 @@ vim.opt.encoding = "UTF-8"
 vim.opt.shortmess:append("c")
 vim.opt.cursorline = true
 vim.opt.nu = true
+vim.opt.exrc = true
 vim.api.nvim_set_option("clipboard","unnamedplus")
 
 -- os specific

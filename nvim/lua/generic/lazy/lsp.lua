@@ -66,8 +66,6 @@ local cfg = function()
             "lua_ls",
             "rust_analyzer",
             "powershell_es",
-            --"csharp_ls",
-            "omnisharp",
             "jsonls",
             "yamlls",
         },
