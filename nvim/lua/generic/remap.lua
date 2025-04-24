@@ -57,6 +57,7 @@ map("n", "<leader>'", ":Telescope live_grep<CR>", opts)
 map("n", "<leader>;", ":Telescope find_files<CR>", opts)
 map("n", "<leader>/", ":Telescope lsp_document_symbols<CR>", opts)
 map("n", "<leader>?", ":Telescope lsp_workspace_symbols<CR>", opts)
+map("n", "<leader>p", ":Telescope neoclip plus<CR>", opts)
 map("n", "<leader>:",  function() 
     require('telescope.builtin').find_files { 
         search_file = vim.fn.expand("<cword>") 
