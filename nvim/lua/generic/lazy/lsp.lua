@@ -4,8 +4,6 @@ local cfg_cmp = function()
 
     cmp.setup({
         mapping = cmp.mapping.preset.insert({
-            ['<C-p>'] = cmp.mapping.select_prev_item(),
-            ['<C-o>'] = cmp.mapping.select_next_item(),
             ['<Enter>'] = cmp.mapping.confirm({ select = true }),
             ["<C-u>"] = cmp.mapping.scroll_docs(-4),
             ["<C-d>"] = cmp.mapping.scroll_docs(4),
