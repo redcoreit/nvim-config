@@ -58,7 +58,12 @@ local cfg_lua = function()
 end
 
 local cfg = function()
-    require("mason").setup()
+    require("mason").setup({
+        registries = {
+            "github:mason-org/mason-registry",
+            "github:Crashdummyy/mason-registry",
+        },
+    })
     require("mason-lspconfig").setup({
         ensure_installed = {
             "lua_ls",
@@ -75,7 +80,6 @@ local cfg = function()
             end,
         },
     })
-
 
     cfg_cmp()
 

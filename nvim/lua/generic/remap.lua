@@ -118,8 +118,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
         local opts = { buffer = e.buf }
         lsp_map(map, opts)
 
-        vim.notify("LspAttach")
         local client = vim.lsp.get_client_by_id(e.data.client_id)
+
+        if client then
+            vim.notify("LspAttach: " .. client.name)
+        end
+
         if client.server_capabilities.inlayHintProvider then
             vim.lsp.inlay_hint.enable()
         end
