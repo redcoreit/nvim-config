@@ -6,7 +6,7 @@ local opts = {
     -- - "auto": Does nothing for filewatching, leaving everything as default
     -- - "roslyn": Turns off neovim filewatching which will make roslyn do the filewatching
     -- - "off": Hack to turn off all filewatching. (Can be used if you notice performance issues)
-    filewatching = "auto",
+    filewatching = "roslyn",
 
     -- Optional function that takes an array of targets as the only argument. Return the target you
     -- want to use. If it returns `nil`, then it falls back to guessing the target like normal
@@ -44,6 +44,8 @@ local opts = {
 }
 
 local cfg = function()
+    require("roslyn").setup()
+
     vim.lsp.config("roslyn", {
         on_attach = function()
             -- vim.notify("Roslyn LSP attached")
@@ -76,7 +78,20 @@ local cfg = function()
         },
     })
 
-    require("roslyn").setup()
+    vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+        pattern = "*",
+        callback = function()
+            local clients = vim.lsp.get_clients({ name = "roslyn" })
+            if not clients or #clients == 0 then
+                return
+            end
+
+            local buffers = vim.lsp.get_buffers_by_client_id(clients[1].id)
+            for _, buf in ipairs(buffers) do
+                vim.lsp.util._refresh("textDocument/diagnostic", { bufnr = buf })
+            end
+        end,
+    })
 end
 
 return { 
