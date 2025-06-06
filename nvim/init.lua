@@ -1,6 +1,7 @@
 require("generic.set")
 require("generic.remap")
 require("generic.cmds")
+require("generic.shell")
 require("system.hiyank")
 
 local profile = os.getenv("NVIM_PROFILE")
