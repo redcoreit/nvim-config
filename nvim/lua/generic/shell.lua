@@ -56,7 +56,7 @@ vim.api.nvim_create_user_command("Test", function()
   vim.api.nvim_buf_set_keymap(buf, 'n', 'i', '', { noremap = true, callback = function() end }) -- disable insert
 
   local cwd = vim.fn.getcwd():gsub('\\', '/')
-  local term_cmd = { 'pwsh', '-nologo', '-noprofile', '-NoExit', '-command', 'dotnet trx "' .. cwd .. '"' }
+  local term_cmd = { 'pwsh', '-nologo', '-noprofile', '-NoExit', '-command', 'dotnet trx --no-build "' .. cwd .. '"' }
 
   vim.fn.termopen(term_cmd)
   --vim.cmd("startinsert")
@@ -82,7 +82,19 @@ vim.api.nvim_create_user_command("Build", function()
     local makeprg = vim.o.makeprg
     local args = vim.fn.split(makeprg)
 
+    local fidget = require("fidget.progress")
+    local notif = nil
+    if fidget ~= nil then 
+        local cwd = vim.fn.getcwd():gsub('\\', '/')
+        notif = fidget.handle.create({
+            title = cwd,
+            message = "Starting...",
+            lsp_client = { name = "dotnet build" },
+        })
+    end
+
     vim.fn.jobstart(args, {
+
         --stdout_buffered = false,
         stdout_buffered = true,
         stderr_buffered = true,
@@ -112,6 +124,10 @@ vim.api.nvim_create_user_command("Build", function()
                 efm = vim.o.errorformat,
                 lines = lines,
             })
+
+            if notif ~= nil then
+                notif:finish({ message = "Done!" }) 
+            end
 
             if exit_code ~= 0 then
                 if #vim.fn.getqflist() > 0 then
