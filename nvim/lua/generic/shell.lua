@@ -133,7 +133,7 @@ vim.api.nvim_create_user_command("Build", function()
                 if #vim.fn.getqflist() > 0 then
                     vim.notify("Build finished: " ..  #vim.fn.getqflist(), vim.log.levels.ERROR)
                 else
-                    vim.notify("Build not started, no .csproj or .sln found. ", vim.log.levels.WARN)
+                    vim.notify("Build process terminated. ", vim.log.levels.WARN)
                 end
             else
                 vim.notify('Build finished successfully.')
