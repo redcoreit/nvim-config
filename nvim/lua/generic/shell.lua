@@ -115,7 +115,7 @@ vim.api.nvim_create_user_command("Build", function()
         on_exit = function(_, exit_code)
             -- Remove empty lines
             local lines = vim.tbl_filter(function(line)
-                return line ~= ''
+                return line ~= '' and line:match("error")
             end, output)
 
             -- Use Neovim's built-in errorformat to parse into the quickfix list
