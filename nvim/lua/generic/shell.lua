@@ -133,7 +133,8 @@ vim.api.nvim_create_user_command("Build", function()
                 if #vim.fn.getqflist() > 0 then
                     vim.notify("Build finished: " ..  #vim.fn.getqflist(), vim.log.levels.ERROR)
                 else
-                    vim.notify("Build process terminated. ", vim.log.levels.WARN)
+                    vim.notify("Build process terminated with code: " .. exit_code, vim.log.levels.ERROR)
+                    vim.notify(table.concat(lines, "\n"), vim.log.levels.ERROR)
                 end
             else
                 vim.notify('Build finished successfully.')
