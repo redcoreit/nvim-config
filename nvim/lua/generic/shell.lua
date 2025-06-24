@@ -18,6 +18,8 @@ vim.api.nvim_create_user_command("Term2", function()
   local row = math.floor((vim.o.lines - height) / 2)
   local col = math.floor((vim.o.columns - width) / 2)
 
+  vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>q!<CR>', { noremap = true, silent = true })
+
   vim.api.nvim_open_win(buf, true, {
     relative = 'editor',
     width = width,

@@ -19,6 +19,10 @@ map("v", "K", ":m '<-2<CR>gv=gv", opts)
 map("v", "<leader>q", "<cmd>cclose<CR>", opts)
 map("t", "<ESC>", "<C-\\><C-n>", opts)
 map('n', '<leader>fr', "gv==", opts)
+map('i', '<S-Down>', "<nop>", opts)
+map('n', '<S-Down>', "<nop>", opts)
+map('i', '<S-Up>', "<nop>", opts)
+map('n', '<S-Up>', "<nop>", opts)
 
 -- harpoon
 map("n", "<leader>hh", function() 
