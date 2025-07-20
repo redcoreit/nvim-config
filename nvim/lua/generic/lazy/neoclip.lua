@@ -1,7 +1,7 @@
 local cfg = function()
     local opts =  { 
         default_register = '"',
-        preview = false, 
+        preview = true, 
         content_spec_column = true
     }
     require('neoclip').setup(opts)
