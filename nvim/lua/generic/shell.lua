@@ -5,63 +5,63 @@ vim.opt.shellquote = ''
 vim.opt.shellxquote = ''
 
 vim.api.nvim_create_user_command("Term", function()
-  local cwd = vim.fn.getcwd():gsub('\\', '/')
-  local cmd = 'terminal pwsh -nologo -noprofile -command "cd \""' .. cwd .. '\""'
+    local cwd = vim.fn.getcwd():gsub('\\', '/')
+    local cmd = 'terminal pwsh -nologo -noprofile -command "cd \""' .. cwd .. '\""'
 
-  vim.cmd(cmd)
+    vim.cmd(cmd)
 end, {})
 
 vim.api.nvim_create_user_command("Term2", function()
-  local buf = vim.api.nvim_create_buf(false, true)
-  local width = math.floor(vim.o.columns * 0.8)
-  local height = math.floor(vim.o.lines * 0.8)
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
+    local buf = vim.api.nvim_create_buf(false, true)
+    local width = math.floor(vim.o.columns * 0.8)
+    local height = math.floor(vim.o.lines * 0.8)
+    local row = math.floor((vim.o.lines - height) / 2)
+    local col = math.floor((vim.o.columns - width) / 2)
 
-  vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>q!<CR>', { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>q!<CR>', { noremap = true, silent = true })
 
-  vim.api.nvim_open_win(buf, true, {
-    relative = 'editor',
-    width = width,
-    height = height,
-    row = row,
-    col = col,
-    style = 'minimal',
-    border = 'single',
-  })
+    vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width = width,
+        height = height,
+        row = row,
+        col = col,
+        style = 'minimal',
+        border = 'single',
+    })
 
-  local cwd = vim.fn.getcwd():gsub('\\', '/')
-  local term_cmd = { 'pwsh', '-nologo', '-noprofile', '-NoExit', '-command', 'cd "' .. cwd .. '"' }
-  vim.fn.termopen(term_cmd)
-  vim.cmd("startinsert")
+    local cwd = vim.fn.getcwd():gsub('\\', '/')
+    local term_cmd = { 'pwsh', '-nologo', '-noprofile', '-NoExit', '-command', 'cd "' .. cwd .. '"' }
+    vim.fn.termopen(term_cmd)
+    vim.cmd("startinsert")
 end, {})
 
 vim.api.nvim_create_user_command("Test", function()
-  local buf = vim.api.nvim_create_buf(false, true)
-  local width = math.floor(vim.o.columns * 0.8)
-  local height = math.floor(vim.o.lines * 0.8)
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
+    local buf = vim.api.nvim_create_buf(false, true)
+    local width = math.floor(vim.o.columns * 0.8)
+    local height = math.floor(vim.o.lines * 0.8)
+    local row = math.floor((vim.o.lines - height) / 2)
+    local col = math.floor((vim.o.columns - width) / 2)
 
-  vim.api.nvim_open_win(buf, true, {
-    relative = 'editor',
-    width = width,
-    height = height,
-    row = row,
-    col = col,
-    style = 'minimal',
-    border = 'single',
-  })
+    vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width = width,
+        height = height,
+        row = row,
+        col = col,
+        style = 'minimal',
+        border = 'single',
+    })
 
-  vim.api.nvim_buf_set_option(buf, 'modifiable', false)
-  vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>q!<CR>', { noremap = true, silent = true })
-  vim.api.nvim_buf_set_keymap(buf, 'n', 'i', '', { noremap = true, callback = function() end }) -- disable insert
+    vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+    vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>q!<CR>', { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(buf, 'n', 'i', '', { noremap = true, callback = function() end }) -- disable insert
 
-  local cwd = vim.fn.getcwd():gsub('\\', '/')
-  local term_cmd = { 'pwsh', '-nologo', '-noprofile', '-NoExit', '-command', 'dotnet trx --no-build "' .. cwd .. '"' }
+    local cwd = vim.fn.getcwd():gsub('\\', '/')
+    local term_cmd = { 'pwsh', '-nologo', '-noprofile', '-NoExit', '-command', 'dotnet trx --no-build "' .. cwd .. '"' }
 
-  vim.fn.termopen(term_cmd)
-  --vim.cmd("startinsert")
+    vim.fn.termopen(term_cmd)
+    --vim.cmd("startinsert")
 end, {})
 
 --vim.api.nvim_create_user_command("Build", function()
@@ -86,7 +86,7 @@ vim.api.nvim_create_user_command("Build", function()
 
     local fidget = require("fidget.progress")
     local notif = nil
-    if fidget ~= nil then 
+    if fidget ~= nil then
         local cwd = vim.fn.getcwd():gsub('\\', '/')
         notif = fidget.handle.create({
             title = cwd,
@@ -128,12 +128,12 @@ vim.api.nvim_create_user_command("Build", function()
             })
 
             if notif ~= nil then
-                notif:finish({ message = "Done!" }) 
+                notif:finish({ message = "Done!" })
             end
 
             if exit_code ~= 0 then
                 if #vim.fn.getqflist() > 0 then
-                    vim.notify("Build finished: " ..  #vim.fn.getqflist(), vim.log.levels.ERROR)
+                    vim.notify("Build finished: " .. #vim.fn.getqflist(), vim.log.levels.ERROR)
                 else
                     vim.notify("Build process terminated with code: " .. exit_code, vim.log.levels.ERROR)
                     vim.notify(table.concat(lines, "\n"), vim.log.levels.ERROR)
@@ -146,3 +146,61 @@ vim.api.nvim_create_user_command("Build", function()
         end,
     })
 end, {})
+
+vim.api.nvim_create_user_command("Just", function(opts)
+    local buf = vim.api.nvim_create_buf(false, true)
+    local width = math.floor(vim.o.columns * 0.8)
+    local height = math.floor(vim.o.lines * 0.8)
+    local row = math.floor((vim.o.lines - height) / 2)
+    local col = math.floor((vim.o.columns - width) / 2)
+
+    local arg = opts.args:gsub('\\', '/');
+
+    local win = vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width = width,
+        height = height,
+        row = row,
+        col = col,
+        style = 'minimal',
+        border = 'single',
+    })
+
+    vim.api.nvim_win_set_option(win, 'wrap', false)
+
+    local parse_exit = function()
+        vim.cmd('silent! normal! gg"0yG')
+        local output = vim.fn.getreg('0', 1, true)
+
+        -- keep only non-empty lines containing 'error'
+        local filtered = vim.tbl_filter(function(line)
+            return line ~= '' and line:match('error')
+        end, output)
+
+        -- deduplicate
+        local seen = {}
+        local lines = {}
+        for _, line in ipairs(filtered) do
+            if not seen[line] then
+                table.insert(lines, line)
+                seen[line] = true
+            end
+        end
+
+        if #lines > 0 then
+            vim.fn.setqflist({}, ' ', {
+                title = 'just (parsed)',
+                efm = vim.o.errorformat,
+                lines = lines,
+            })
+        end
+
+        vim.api.nvim_win_close(win, true)
+    end
+
+    vim.keymap.set('n', 'q', parse_exit, { buffer = buf, noremap = true, silent = true })
+
+    local cwd = vim.fn.getcwd():gsub('\\', '/')
+    local term_cmd = { 'pwsh', '-nologo', '-noprofile', '-command', 'cd "' .. cwd .. '";just ' .. arg }
+    vim.fn.termopen(term_cmd)
+end, { nargs = "?" })
