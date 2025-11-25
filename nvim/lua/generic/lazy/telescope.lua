@@ -89,6 +89,12 @@ local function cfg()
         }
     }
 
+    local pickers = {
+        find_files = {
+            hidden = true
+        },
+    }
+
     local select_opts = {
         layout_strategy = "vertical",
         layout_config = {
